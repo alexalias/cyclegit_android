@@ -31,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
         void onComplete(boolean success, T result);
     }
 
-    //TODO: Was ist der Typ T?
+
     private static abstract class DatabaseAsyncTask<T> extends AsyncTask<Void, Void, T> {
 
         private DatabaseHandler<T> handler;
