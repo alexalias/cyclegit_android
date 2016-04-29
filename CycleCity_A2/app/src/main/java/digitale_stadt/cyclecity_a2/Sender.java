@@ -9,6 +9,7 @@ import org.json.JSONObject;
 public class Sender {
      static Position position;
 
+    //TO DO: HTTP-Verbindung muss noch eingerichtet werden
     public static String POST (Position pos){
 
         position = pos;
