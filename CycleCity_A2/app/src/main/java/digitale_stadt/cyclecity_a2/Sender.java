@@ -29,6 +29,6 @@ public class Sender {
         //Convert jsonObject to String
         json = jsonObject.toString();
 
-        return "" + position;
+        return json;
     }
 }
