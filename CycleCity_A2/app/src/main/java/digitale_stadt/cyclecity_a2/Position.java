@@ -5,7 +5,7 @@ import android.location.Location;
 import java.util.Date;
 
 /**
- * Created by alexutza_a on 29.04.2016.
+ * Created by Anne Lorenz on 27.04.2016.
  */
 public class Position {
     private long id;
@@ -32,6 +32,13 @@ public class Position {
         longitude = location.getLongitude();
         altitude = location.getAltitude();
         sent = 0;
+    }
+
+    @Override
+    public String toString() {
+        return ("" + this.getId() + ", " + this.getTrackId() + ", " + this.getDeviceId() +
+        ", " + this.getTime().toString() + ", " + this.getLatitude() + ", " +
+        this.getLongitude() + ", " + this.getAltitude() + ", " + this.getSent() + "\n");
     }
 
     // Getter und Setter

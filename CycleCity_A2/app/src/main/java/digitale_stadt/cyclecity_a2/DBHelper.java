@@ -79,6 +79,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO positions (trackId, deviceId, timestamp, latitude, longitude, altitude, sent)" +
                 "VALUES (1, 100, 1451649018000, 53.551085, 9.993682, 0.0, 0), " +
                 "(1, 100, 1451649019000, 53.551090, 9.993692, 2.0, 0)");
+
+        Log.d("DBHelper", "1. Objekt Datenbank: " + selectPosition().toString());
     }
 
     @Override
