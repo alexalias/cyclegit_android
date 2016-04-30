@@ -9,11 +9,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by alexutza_a on 29.04.2016.
+ * Created by Anne Lorenz on 27.04.2016.
+ *
+ * Hier wird eine SQLite Datenbank erzeugt, die eine Tabelle (positions)
+ * mit den einzelnen GPS-POsitionen enthält.
+ *
  */
+
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final int DB_VERSION = 1;
@@ -26,11 +32,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db = getWritableDatabase();
     }
 
-    // TODO????
     public interface DatabaseHandler<T> {
         void onComplete(boolean success, T result);
     }
-
 
     private static abstract class DatabaseAsyncTask<T> extends AsyncTask<Void, Void, T> {
 
@@ -70,6 +74,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 "longitude REAL," +
                 "altitude REAL," +
                 "sent INTEGER)");
+
+        // add dummy gps positions
+        db.execSQL("INSERT INTO positions (trackId, deviceId, timestamp, latitude, longitude, altitude, sent)" +
+                "VALUES (1, 100, 1451649018000, 53.551085, 9.993682, 0.0, 0), " +
+                "(1, 100, 1451649019000, 53.551090, 9.993692, 2.0, 0)");
     }
 
     @Override
@@ -104,6 +113,9 @@ public class DBHelper extends SQLiteOpenHelper {
         }.execute();
     }
 
+    // Gibt die erste Position in der Tabelle zurück.
+    // TODO: BRAUCHEN WIR SO WAS ÜBERHAUPT???
+
     public Position selectPosition() {
         Position position = new Position();
         Cursor cursor = db.rawQuery("SELECT * FROM positions ORDER BY id LIMIT 1", null);
@@ -134,6 +146,47 @@ public class DBHelper extends SQLiteOpenHelper {
             @Override
             protected Position executeMethod() {
                 return selectPosition();
+            }
+        }.execute();
+    }
+
+    // Gibt eine Liste aller Positionsobjekte zurück,
+    // die noch nicht an den Server verschickt worden sind.
+
+    public ArrayList<Position> selectAllPositionsNotSent() {
+        ArrayList<Position> positions = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM positions WHERE sent = 0 ORDER BY id", null);
+
+        try {
+            if (cursor.getCount() > 0) {
+
+                Position pos = new Position();
+
+                cursor.moveToFirst();
+                pos.setId(cursor.getLong(cursor.getColumnIndex("id")));
+                pos.setTrackId(cursor.getInt(cursor.getColumnIndex("trackId")));
+                pos.setDeviceId(cursor.getString(cursor.getColumnIndex("deviceId")));
+                pos.setTime(new Date(cursor.getLong(cursor.getColumnIndex("time"))));
+                pos.setLatitude(cursor.getDouble(cursor.getColumnIndex("latitude")));
+                pos.setLongitude(cursor.getDouble(cursor.getColumnIndex("longitude")));
+                pos.setAltitude(cursor.getDouble(cursor.getColumnIndex("altitude")));
+
+                positions.add(pos);
+            } else {
+                return null;
+            }
+        } finally {
+            cursor.close();
+        }
+        return positions;
+    }
+
+    public void selectAllPositionsNotSentAsync(DatabaseHandler<Void> handler) {
+        new DatabaseAsyncTask<Void>(handler) {
+            @Override
+            protected Void executeMethod() {
+                selectAllPositionsNotSent();
+                return null;
             }
         }.execute();
     }
