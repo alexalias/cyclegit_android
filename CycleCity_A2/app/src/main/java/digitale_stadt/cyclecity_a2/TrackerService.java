@@ -35,6 +35,7 @@ public class TrackerService extends Service {
         //manager = (LocationManager) AppContextProvider.getAppContext().getSystemService(Context.LOCATION_SERVICE);
         manager = (LocationManager) AppContextProvider.getAppContext().getSystemService(Context.LOCATION_SERVICE);
         dbhelper = new DBHelper(AppContextProvider.getAppContext());
+        Log.d("TrackerService", "DBHelper wurde erzeugt");
 
         locationListener = new LocationListener() {
             @Override
