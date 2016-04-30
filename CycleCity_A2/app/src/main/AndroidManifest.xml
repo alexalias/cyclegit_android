@@ -25,6 +25,14 @@
             </intent-filter>
         </activity>
 
+        <!--<service-->
+            <!--android:enabled="true"-->
+            <!--android:name=".TrackerService">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="digitale_stadt.ciclecity_a2.TrackerService.onStartCommand"/>-->
+            <!--</intent-filter>-->
+    <!--</service>-->
+
     </application>
 
 </manifest>

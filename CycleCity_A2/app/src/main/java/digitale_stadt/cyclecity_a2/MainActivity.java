@@ -30,7 +30,10 @@ public class MainActivity extends AppCompatActivity {
             Log.i("info", "Tracking is on!");
             Toast.makeText(MainActivity.this, "Tacking started", Toast.LENGTH_SHORT).show();
             trackerService = new Intent(this, digitale_stadt.cyclecity_a2.TrackerService.class);
+            Log.d("MAIN", "Intent wurde erzeugt");
             this.startService(trackerService);
+            Log.d("MAIN", "TrackerService wurde gestartet");
+
         }
         else {
             Log.i("info", "Tracking is off!");
