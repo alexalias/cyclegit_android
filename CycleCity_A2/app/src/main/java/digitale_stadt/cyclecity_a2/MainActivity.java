@@ -15,6 +15,7 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class MainActivity extends AppCompatActivity {
     Intent trackerService;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         if (on) {
             Log.i("info", "Tracking is on!");
             Toast.makeText(MainActivity.this, "Tacking started", Toast.LENGTH_SHORT).show();
-            trackerService = new Intent(this, digitale_stadt.cyclecity_a2.TrackerService.class);
+
+            trackerService = new Intent(MainActivity.this, digitale_stadt.cyclecity_a2.TrackerService.class);
             this.startService(trackerService);
         }
         else {

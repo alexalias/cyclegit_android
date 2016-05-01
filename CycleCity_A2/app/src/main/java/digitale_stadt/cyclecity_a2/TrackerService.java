@@ -43,7 +43,8 @@ public class TrackerService extends Service {
                 {
                     Position pos = new Position(1,"2",location);
                     dbhelper.insertPosition(pos);
-                    Log.i("TrackerService", "Datenpunkt gespeichert" + pos.getTime());
+                    Log.d("TrackerService", "Datenpunkt gespeichert" + pos.getTime());
+
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -67,13 +68,14 @@ public class TrackerService extends Service {
         };
 
         try {
-            Log.d("!?GPSTracker", "Manager RequestLocationUpdate wir angemacht mit 3 Sekunden abstand");
+            Log.d("!?GPSTracker", "Manager RequestLocationUpdate wird angemacht mit 3 Sekunden abstand");
             manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000L, 0, locationListener);
             Log.i("TrackerService", "up nd running");
         }catch (SecurityException e){
 
         }
 
-        return 0;
+        return START_STICKY;
     }
+
 }
